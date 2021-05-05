@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">FootRuler</string>
+
+    <string name="new_button">NEW RULER</string>
+    <string name="history_button">FEET HISTORY</string>
+    <string name="settings_button">SETTINGS</string>
+    <string name="logo_desc">App logo</string>
+
+    <string name="settings_header">FootRuler settings</string>
+    <string name="settings_server_desc">Web address of the chosen FootRuler server</string>
+    <string name="settings_server_placeholder">e.g. https://server.com/</string>
+    <string name="default_server_address">https://footruler.kamilki.me/</string>
+    <string name="settings_consent_desc">Do you allow FootRuler to store your photos on the server?</string>
+    <string name="settings_consent_true">Yes</string>
+    <string name="settings_consent_false">No</string>
+    <string name="settings_save_button">SAVE</string>
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.SettingsActivity">
+
+    <TextView
+            android:text="@string/settings_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+    <TextView
+            android:text="@string/settings_server_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="193dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp" />
+
+    <EditText
+            android:layout_width="296dp"
+            android:layout_height="44dp"
+            android:inputType="textPersonName"
+            android:text="@string/settings_server_placeholder"
+            android:ems="10"
+            android:id="@+id/addressField"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="220dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            android:textColor="@color/white" />
+
+    <TextView
+            android:text="@string/settings_consent_desc"
+            android:layout_width="292dp"
+            android:layout_height="42dp"
+            android:id="@+id/textView4"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="350dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp" />
+
+    <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/consent"
+            android:showText="false"
+            android:textOn="@string/settings_consent_true"
+            android:textOff="@string/settings_consent_false"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="401dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            android:checked="true"
+            tools:checked="false" />
+
+    <Button
+            android:text="@string/settings_save_button"
+            android:layout_width="165dp"
+            android:layout_height="68dp"
+            android:id="@+id/button4"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="528dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="96dp"
+            android:onClick="save"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@color/dark_gray"
+            android:backgroundTint="@color/dark_gray" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
