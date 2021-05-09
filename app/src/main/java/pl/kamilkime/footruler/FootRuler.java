@@ -35,6 +35,11 @@ public class FootRuler extends AppCompatActivity {
             return;
         }
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 10);
+            return;
+        }
+
         final Intent intent = new Intent(this, CameraActivity.class);
         this.startActivity(intent);
     }
