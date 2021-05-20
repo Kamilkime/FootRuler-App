@@ -60,7 +60,8 @@
             android:backgroundTint="@color/dark_gray"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:onClick="openHistoryMenu" />
 
     <Button
             android:text="@string/settings_button"

@@ -1,5 +1,6 @@
 package pl.kamilkime.footruler.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -73,47 +74,49 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     public void takePicture(final View view) {
-        this.imageCapture.takePicture(ContextCompat.getMainExecutor(this), new ImageCapture.OnImageCapturedCallback() {
+//        this.imageCapture.takePicture(ContextCompat.getMainExecutor(this), new ImageCapture.OnImageCapturedCallback() {
+//
+//            @Override
+//            public void onCaptureSuccess(@NonNull final ImageProxy image) {
+//                final ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+//
+//                final byte[] bytes = new byte[buffer.remaining()];
+//                buffer.get(bytes);
+//
+//                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+//                if (bitmap.getWidth() > bitmap.getHeight()) { //TODO check orientation better
+//                    final Matrix matrix = new Matrix();
+//                    matrix.setRotate(90.0F);
+//
+//                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//                }
+//
+//                final File imageFile = new File(CameraActivity.this.getCacheDir(), System.currentTimeMillis() + ".jpg");
+//                try {
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(imageFile));
+//                } catch (final FileNotFoundException exception) {
+//                    return;
+//                }
+//
+//                new Thread(() -> {
+//                    try {
+//                        final CloseableHttpClient httpClient = HttpClients.createDefault();
+//                        final HttpPost post = new HttpPost("http://192.168.1.100:7000/analyze");
+//
+//                        final MultipartEntityBuilder multipart = MultipartEntityBuilder.create();
+//                        multipart.addBinaryBody("image", new FileInputStream(imageFile), ContentType.APPLICATION_OCTET_STREAM, imageFile.getName());
+//                        post.setEntity(multipart.build());
+//
+//                        final CloseableHttpResponse response = httpClient.execute(post);
+//                        Log.i("FootRuler", "Server response: " + IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8));
+//                    } catch (final IOException exception) {
+//                        exception.printStackTrace();
+//                    }
+//                }).start();
+//            }
+//        });
 
-            @Override
-            public void onCaptureSuccess(@NonNull final ImageProxy image) {
-                final ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-
-                final byte[] bytes = new byte[buffer.remaining()];
-                buffer.get(bytes);
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-                if (bitmap.getWidth() > bitmap.getHeight()) { //TODO check orientation better
-                    final Matrix matrix = new Matrix();
-                    matrix.setRotate(90.0F);
-
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                }
-
-                final File imageFile = new File(CameraActivity.this.getCacheDir(), System.currentTimeMillis() + ".jpg");
-                try {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(imageFile));
-                } catch (final FileNotFoundException exception) {
-                    return;
-                }
-
-                new Thread(() -> {
-                    try {
-                        final CloseableHttpClient httpClient = HttpClients.createDefault();
-                        final HttpPost post = new HttpPost("http://192.168.1.100:7000/analyze");
-
-                        final MultipartEntityBuilder multipart = MultipartEntityBuilder.create();
-                        multipart.addBinaryBody("image", new FileInputStream(imageFile), ContentType.APPLICATION_OCTET_STREAM, imageFile.getName());
-                        post.setEntity(multipart.build());
-
-                        final CloseableHttpResponse response = httpClient.execute(post);
-                        Log.i("FootRuler", "Server response: " + IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8));
-                    } catch (final IOException exception) {
-                        exception.printStackTrace();
-                    }
-                }).start();
-            }
-        });
+        this.startActivity(new Intent(this, DataActivity.class));
     }
 
 }

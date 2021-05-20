@@ -14,4 +14,11 @@
     <string name="settings_consent_true">Yes</string>
     <string name="settings_consent_false">No</string>
     <string name="settings_save_button">SAVE</string>
+    <string name="history_header">Feet history</string>
+    <string name="clear_history">CLEAR HISTORY</string>
+    <string name="data_header">MEASUREMENT REPORT</string>
+    <string name="remove_from_server">REMOVE FROM SERVER</string>
+    <string name="foot_length">LENGTH:</string>
+    <string name="foot_width">WIDTH: </string>
+    <string name="foot_eu_size">EU SIZE:</string>
 </resources>

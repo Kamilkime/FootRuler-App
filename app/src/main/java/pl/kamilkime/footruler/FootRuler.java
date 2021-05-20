@@ -8,12 +8,11 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import pl.kamilkime.footruler.activity.CameraActivity;
+import pl.kamilkime.footruler.activity.HistoryActivity;
 import pl.kamilkime.footruler.activity.SettingsActivity;
 
 public class FootRuler extends AppCompatActivity {
@@ -21,11 +20,16 @@ public class FootRuler extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.main_menu);
+        this.setContentView(R.layout.main_activity);
     }
 
     public void openSettingsMenu(final View view) {
         final Intent intent = new Intent(this, SettingsActivity.class);
+        this.startActivity(intent);
+    }
+
+    public void openHistoryMenu(final View view) {
+        final Intent intent = new Intent(this, HistoryActivity.class);
         this.startActivity(intent);
     }
 

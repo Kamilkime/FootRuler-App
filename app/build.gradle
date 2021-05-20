@@ -39,6 +39,9 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/*.kotlin_module'
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -50,6 +53,8 @@ dependencies {
     implementation 'androidx.camera:camera-view:1.0.0-alpha24'
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.0.3'
     implementation 'commons-io:commons-io:2.8.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.0'
+    implementation 'androidx.navigation:navigation-ui:2.3.0'
 
     testImplementation 'junit:junit:4.13.2'
 
