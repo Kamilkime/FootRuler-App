@@ -1,12 +1,18 @@
 package pl.kamilkime.footruler.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
+
+import pl.kamilkime.footruler.FootRuler;
 import pl.kamilkime.footruler.R;
+import pl.kamilkime.footruler.database.FootDatabase;
+import pl.kamilkime.footruler.database.entity.Setting;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -15,16 +21,35 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.settings_activity);
 
-        // TODO load and set settings in activity
+        new Thread(() -> {
+            final FootDatabase footDatabase = FootRuler.getFootDatabase();
 
-        final EditText addressField = this.findViewById(R.id.addressField);
-        addressField.setText(R.string.default_server_address);
+            final Setting serverAddress = footDatabase.settingsDao().getSetting("server_address");
+            final Setting saveOnServer = footDatabase.settingsDao().getSetting("save_on_server");
+
+            new Handler(this.getApplicationContext().getMainLooper()).post(() -> {
+                final EditText addressField = this.findViewById(R.id.addressField);
+                addressField.setText(serverAddress.settingValue);
+
+                final SwitchMaterial consentSwitch = this.findViewById(R.id.consent);
+                consentSwitch.setChecked("true".equals(saveOnServer.settingValue));
+            });
+        }).start();
     }
 
     public void save(final View view) {
-        // TODO save settings
+        final EditText addressField = this.findViewById(R.id.addressField);
+        final Setting serverAddress = new Setting("server_address", addressField.getText().toString());
 
-        this.onBackPressed();
+        final SwitchMaterial consentSwitch = this.findViewById(R.id.consent);
+        final Setting saveOnServer = new Setting("save_on_server", consentSwitch.isChecked() ? "true" : "false");
+
+        new Thread(() -> {
+            final FootDatabase footDatabase = FootRuler.getFootDatabase();
+            footDatabase.settingsDao().updateSettings(serverAddress, saveOnServer);
+        }).start();
+
+        this.finish();
     }
 
 }

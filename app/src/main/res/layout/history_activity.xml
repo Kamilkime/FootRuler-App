@@ -40,12 +40,13 @@
             android:text="@string/clear_history"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:id="@+id/remove_button"
+            android:id="@+id/remove_from_server"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="540dp"
             android:textSize="20sp"
             android:textStyle="bold"
             android:backgroundTint="@color/dark_red"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="76dp" />
+            android:layout_marginStart="76dp"
+            android:onClick="clearHistory" />
 </androidx.constraintlayout.widget.ConstraintLayout>

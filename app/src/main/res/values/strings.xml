@@ -21,4 +21,10 @@
     <string name="foot_length">LENGTH:</string>
     <string name="foot_width">WIDTH: </string>
     <string name="foot_eu_size">EU SIZE:</string>
+    <string name="waiting">Waiting for image analysis…</string>
+    <string name="no_feet">NO FEET FOUND</string>
+    <string name="one_foot">1 FOOT</string>
+    <string name="feet">%1$d FEET</string>
+    <string name="foot_no">FOOT #%1$d</string>
+    <string name="foot_value">%1$f cm</string>
 </resources>

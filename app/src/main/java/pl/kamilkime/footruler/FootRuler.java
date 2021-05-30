@@ -1,26 +1,57 @@
 package pl.kamilkime.footruler;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import pl.kamilkime.footruler.activity.CameraActivity;
 import pl.kamilkime.footruler.activity.HistoryActivity;
 import pl.kamilkime.footruler.activity.SettingsActivity;
+import pl.kamilkime.footruler.database.FootDatabase;
+import pl.kamilkime.footruler.database.entity.Setting;
+import pl.kamilkime.footruler.util.PermissionUtil;
 
 public class FootRuler extends AppCompatActivity {
+
+    private ActivityResultLauncher<String[]> permissionCheck;
+    private static FootDatabase footDatabase;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.permissionCheck = this.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+            for (final boolean result : isGranted.values()) {
+                if (result) {
+                    continue;
+                }
+
+                final Toast toast = Toast.makeText(this, "You need to grant required\npermissions first", Toast.LENGTH_LONG);
+
+                final TextView toastText = toast.getView().findViewById(android.R.id.message);
+                if (toastText != null) {
+                    toastText.setGravity(Gravity.CENTER);
+                }
+
+                toast.show();
+                return;
+            }
+
+            final Intent intent = new Intent(this, CameraActivity.class);
+            this.startActivity(intent);
+        });
+
         this.setContentView(R.layout.main_activity);
+        initDatabase(this.getApplicationContext());
     }
 
     public void openSettingsMenu(final View view) {
@@ -34,23 +65,29 @@ public class FootRuler extends AppCompatActivity {
     }
 
     public void useCamera(final View view) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 10);
+        this.permissionCheck.launch(PermissionUtil.APP_PERMISSIONS);
+    }
+
+    private static void initDatabase(final Context context) {
+        if (footDatabase != null) {
             return;
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 10);
-            return;
-        }
+        footDatabase = Room.databaseBuilder(context, FootDatabase.class, "footruler.db").fallbackToDestructiveMigration().build();
 
-        final Intent intent = new Intent(this, CameraActivity.class);
-        this.startActivity(intent);
+        new Thread(() -> {
+            footDatabase.settingsDao().insertDefaults(
+                    new Setting("server_address", "http://192.168.1.100:7000/"),
+                    new Setting("save_on_server", "true")
+            );
+        }).start();
+    }
+
+    public static FootDatabase getFootDatabase() {
+        return footDatabase;
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+    public void onBackPressed() {}
 
 }
