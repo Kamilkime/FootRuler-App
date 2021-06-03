@@ -27,9 +27,8 @@ public class FootData {
     @ColumnInfo
     public String data;
 
-    public FootData(@NotNull final String image, final boolean savedOnServer, final long timestamp, final int feetCount, @NotNull final String data) {
+    public FootData(@NotNull final String image, final long timestamp, final int feetCount, @NotNull final String data) {
         this.image = image;
-        this.savedOnServer = savedOnServer;
         this.timestamp = timestamp;
         this.feetCount = feetCount;
         this.data = data;

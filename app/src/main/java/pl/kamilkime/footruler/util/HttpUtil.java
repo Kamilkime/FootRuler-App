@@ -37,10 +37,9 @@ public final class HttpUtil {
     public static Optional<FootData> sendImage(final ImageProxy image) {
         final InputStream imageStream = ImageUtil.imageToInputStream(image);
         final String address = FootRuler.getFootDatabase().settingsDao().getSetting("server_address").settingValue;
-        final boolean keepImage = Boolean.parseBoolean(FootRuler.getFootDatabase().settingsDao().getSetting("save_on_server").settingValue);
 
         try (final CloseableHttpClient httpClient = HttpClientBuilder.create().setDefaultRequestConfig(REQUEST_CONFIG).build()) {
-            final HttpPost post = new HttpPost(address + "analyze?keepImage=" + keepImage);
+            final HttpPost post = new HttpPost(address + "analyze");
 
             final MultipartEntityBuilder multipart = MultipartEntityBuilder.create();
             multipart.addBinaryBody("image", imageStream, ContentType.APPLICATION_OCTET_STREAM, "foot");

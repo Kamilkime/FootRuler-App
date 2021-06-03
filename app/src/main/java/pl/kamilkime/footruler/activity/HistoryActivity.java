@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 import pl.kamilkime.footruler.FootRuler;
 import pl.kamilkime.footruler.R;
+import pl.kamilkime.footruler.database.FootDatabase;
 import pl.kamilkime.footruler.database.entity.FootData;
 import pl.kamilkime.footruler.util.DataUtil;
 import pl.kamilkime.footruler.util.HttpUtil;
@@ -66,7 +69,8 @@ public class HistoryActivity extends AppCompatActivity {
 
                     final ImageView thumbnail = entry.findViewById(R.id.thumbnail);
                     if (imageFile.exists()) {
-                        thumbnail.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+                        Glide.with(entry).load(imageFile).into(thumbnail);
+                        //thumbnail.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
                     }
 
                     final TextView timestamp = entry.findViewById(R.id.timestamp);
@@ -108,7 +112,18 @@ public class HistoryActivity extends AppCompatActivity {
 
     public void clearHistory(final View view) {
         new Thread(() -> {
-            FootRuler.getFootDatabase().footDataDao().clearFootData();
+            final FootDatabase database = FootRuler.getFootDatabase();
+            if (!Boolean.parseBoolean(database.settingsDao().getSetting("save_on_server").settingValue)) {
+                for (final FootData footData : database.footDataDao().getAllFootData()) {
+                    if (!footData.savedOnServer) {
+                        continue;
+                    }
+
+                    HttpUtil.removeImage(footData.image);
+                }
+            }
+
+            database.footDataDao().clearFootData();
         }).start();
 
         Toast.makeText(this, "History cleared", Toast.LENGTH_SHORT).show();

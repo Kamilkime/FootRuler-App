@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -31,6 +33,7 @@ import pl.kamilkime.footruler.util.HttpUtil;
 public class DataActivity extends AppCompatActivity {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US);
+    private static final DecimalFormat DECIMAL = new DecimalFormat("#.##", DecimalFormatSymbols.getInstance(Locale.US));
 
     private File imageFile;
     private boolean returnToMain;
@@ -67,13 +70,13 @@ public class DataActivity extends AppCompatActivity {
                 footNo.setText(this.getString(R.string.foot_no, i + 1));
 
                 final TextView length = entry.findViewById(R.id.length);
-                length.setText(this.getString(R.string.foot_value, dataEntry.getDouble("length")));
+                length.setText(this.getString(R.string.foot_value, DECIMAL.format(dataEntry.getDouble("length"))));
 
                 final TextView width = entry.findViewById(R.id.width);
-                width.setText(this.getString(R.string.foot_value, dataEntry.getDouble("width")));
+                width.setText(this.getString(R.string.foot_value, DECIMAL.format(dataEntry.getDouble("width"))));
 
                 final TextView euSize = entry.findViewById(R.id.eu_size);
-                euSize.setText(String.valueOf(dataEntry.getInt("size")));
+                euSize.setText(dataEntry.getString("size"));
 
                 final Button color = entry.findViewById(R.id.color);
                 color.setBackgroundColor(DataUtil.decodeColor(dataEntry.getString("color")));

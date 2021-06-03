@@ -18,11 +18,10 @@ public final class DataUtil {
     public static FootData decodeJSON(final JSONObject json) {
         try {
             final String image = json.getString("image");
-            final boolean savedOnServer = json.getBoolean("saved");
             final int feetCount = json.getInt("feetCount");
-            final String data = json.getJSONArray("footdata").toString();
+            final String data = json.getJSONArray("footData").toString();
 
-            return new FootData(image, savedOnServer, System.currentTimeMillis(), feetCount, data);
+            return new FootData(image, System.currentTimeMillis(), feetCount, data);
         } catch (final JSONException exception) {
             return null;
         }

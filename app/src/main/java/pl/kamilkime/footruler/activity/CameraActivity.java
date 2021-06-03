@@ -28,6 +28,7 @@ import java.util.concurrent.ExecutionException;
 
 import pl.kamilkime.footruler.FootRuler;
 import pl.kamilkime.footruler.R;
+import pl.kamilkime.footruler.database.FootDatabase;
 import pl.kamilkime.footruler.database.entity.FootData;
 import pl.kamilkime.footruler.util.DataUtil;
 import pl.kamilkime.footruler.util.HttpUtil;
@@ -83,11 +84,13 @@ public class CameraActivity extends AppCompatActivity {
                             return;
                         }
 
-                        final Optional<ByteArrayOutputStream> imageStreamOptional = HttpUtil.downloadImage(response.get().image);
+                        final FootData footData = response.get();
+
+                        final Optional<ByteArrayOutputStream> imageStreamOptional = HttpUtil.downloadImage(footData.image);
                         if (imageStreamOptional.isPresent()) {
                             final ByteArrayOutputStream imageStream = imageStreamOptional.get();
 
-                            final File imageFile = DataUtil.getImageFile(response.get().image);
+                            final File imageFile = DataUtil.getImageFile(footData.image);
                             try (final OutputStream fileStream = new FileOutputStream(imageFile)) {
                                 imageStream.writeTo(fileStream);
                             }
@@ -97,14 +100,21 @@ public class CameraActivity extends AppCompatActivity {
                             });
                         }
 
-                        FootRuler.getFootDatabase().footDataDao().addFootData(response.get());
+                        final FootDatabase database = FootRuler.getFootDatabase();
+                        footData.savedOnServer = Boolean.parseBoolean(database.settingsDao().getSetting("save_on_server").settingValue);
+
+                        if (!footData.savedOnServer) {
+                            HttpUtil.removeImage(footData.image);
+                        }
+
+                        database.footDataDao().addFootData(footData);
 
                         new Handler(CameraActivity.this.getApplicationContext().getMainLooper()).post(() -> {
                             final Intent intent = new Intent(CameraActivity.this, DataActivity.class);
-                            intent.putExtra("saved", response.get().savedOnServer);
-                            intent.putExtra("data", response.get().data);
-                            intent.putExtra("timestamp", response.get().timestamp);
-                            intent.putExtra("image", DataUtil.getImageFile(response.get().image));
+                            intent.putExtra("saved", footData.savedOnServer);
+                            intent.putExtra("data", footData.data);
+                            intent.putExtra("timestamp", footData.timestamp);
+                            intent.putExtra("image", DataUtil.getImageFile(footData.image));
                             intent.putExtra("returnToMain", true);
 
                             CameraActivity.this.startActivity(intent);

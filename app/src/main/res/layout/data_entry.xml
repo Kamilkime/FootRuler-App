@@ -22,7 +22,6 @@
                 android:gravity="center">
 
             <TextView
-                    android:text="FOOT #1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/foot_no"
@@ -66,11 +65,10 @@
                         android:gravity="start|center_vertical" />
 
                 <TextView
-                        android:text="24.53 cm"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/length"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:gravity="start|center_vertical" />
@@ -95,11 +93,10 @@
                         android:gravity="start|center_vertical" />
 
                 <TextView
-                        android:text="8.85 cm"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/width"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:gravity="start|center_vertical" />
@@ -124,11 +121,10 @@
                         android:gravity="start|center_vertical" />
 
                 <TextView
-                        android:text="37"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/eu_size"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textColor="@color/white"
                         android:layout_weight="1"
                         android:gravity="start|center_vertical" />
